@@ -3,27 +3,25 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sitexpress/presentations/presentations.dart';
 import 'package:sitexpress/providers/auth_provider.dart';
+import 'package:sitexpress/providers/splash_provider.dart';
 import 'package:sitexpress/widgets/widgets.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authProvider);
+  final didShowedSplashPage = ref.watch(didShowSplashProvider);
 
   return GoRouter(
     navigatorKey: GlobalKey<NavigatorState>(),
     debugLogDiagnostics: true,
     initialLocation: SplashPage.routeLocation,
     redirect: (context, state) {
-      var isAuth = authState.isAuth;
-
-      var isSplash = state.fullPath == SplashPage.routeLocation;
-      if (isSplash) {
-        return isAuth ? DashboardPage.routeLocation : LoginPage.routeLocation;
+      if (!didShowedSplashPage) {
+        return null;
       }
 
-      var isLogginIn = state.fullPath == LoginPage.routeLocation;
-      if (isLogginIn) return isAuth ? DashboardPage.routeLocation : null;
+      var isAuth = authState.isAuth;
 
-      return isAuth ? null : SplashPage.routeLocation;
+      return isAuth ? DashboardPage.routeLocation : LoginPage.routeLocation;
     },
     routes: [
       GoRoute(

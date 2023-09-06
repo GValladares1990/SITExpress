@@ -3,31 +3,35 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sitexpress/providers/loading_provider.dart';
+import 'package:sitexpress/providers/storage_provider.dart';
+
+final authProvider = ChangeNotifierProvider<AuthNotifier>((ref) {
+  final database = ref.watch(databaseProvider);
+  return AuthNotifier(ref, database);
+});
 
 class AuthNotifier extends ChangeNotifier {
-  final StateController<bool> loadingState;
-  String? username;
+  AuthNotifier(this.ref, this._db);
 
-  AuthNotifier(this.loadingState);
+  final Ref ref;
+  late final DatabaseService _db;
 
+  String? get username => _db.authSaved;
   bool get isAuth => username?.isNotEmpty ?? false;
 
+  StateController get loading => ref.read(loadingProvider.notifier);
+
   void login(String username) {
-    loadingState.state = true;
+    loading.state = true;
     Timer(const Duration(seconds: 2), () {
-      loadingState.state = false;
-      this.username = username;
+      loading.state = false;
+      _db.putAuth(username);
       notifyListeners();
     });
   }
 
   void logout() {
-    username = null;
+    _db.deleteAuth();
     notifyListeners();
   }
 }
-
-final authProvider = ChangeNotifierProvider<AuthNotifier>((ref) {
-  final loadingState = ref.read(loadingProvider.notifier);
-  return AuthNotifier(loadingState);
-});

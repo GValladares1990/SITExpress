@@ -1,9 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sitexpress/config/routes.dart';
+import 'package:sitexpress/providers/storage_provider.dart';
 
-void main() {
-  runApp(const ProviderScope(child: MyApp()));
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+
+  final dbService = DatabaseService();
+  await dbService.initAuth();
+
+  runApp(
+    ProviderScope(
+      overrides: [databaseProvider.overrideWith((_) => dbService)],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends ConsumerWidget {
