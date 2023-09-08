@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sitexpress/providers/loading_provider.dart';
+import 'package:sitexpress/providers/providers.dart';
 
 class MGeneralLoading extends ConsumerWidget {
   const MGeneralLoading({super.key});

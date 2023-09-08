@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sitexpress/presentations/presentations.dart';
-import 'package:sitexpress/providers/auth_provider.dart';
-import 'package:sitexpress/providers/splash_provider.dart';
+import 'package:sitexpress/providers/providers.dart';
 import 'package:sitexpress/widgets/widgets.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
@@ -21,7 +20,16 @@ final routerProvider = Provider<GoRouter>((ref) {
 
       var isAuth = authState.isAuth;
 
-      return isAuth ? DashboardPage.routeLocation : LoginPage.routeLocation;
+      if (!isAuth) {
+        return LoginPage.routeLocation;
+      }
+
+      if ([SplashPage.routeLocation, LoginPage.routeLocation]
+          .contains(state.fullPath)) {
+        return DashboardPage.routeLocation;
+      }
+
+      return state.fullPath;
     },
     routes: [
       GoRoute(
@@ -52,6 +60,13 @@ final routerProvider = Provider<GoRouter>((ref) {
               MGeneralLoading(),
             ],
           );
+        },
+      ),
+      GoRoute(
+        name: TickerPage.routeName,
+        path: TickerPage.routeLocation,
+        builder: (_, __) {
+          return const TickerPage();
         },
       ),
     ],

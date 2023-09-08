@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:sitexpress/config/routes.dart';
+import 'package:sitexpress/fastrunning.dart';
 import 'package:sitexpress/providers/storage_provider.dart';
 
 Future<void> main() async {
@@ -25,6 +26,13 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(routerProvider);
+    const test = false;
+
+    if (test) {
+      return const MaterialApp(
+        home: Scaffold(body: SafeArea(child: FormExample())),
+      );
+    }
 
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,

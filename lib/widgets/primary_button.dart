@@ -8,24 +8,21 @@ class MPrimaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(25.0),
-      child: InkWell(
-        onTap: onTap,
-        child: Container(
-          padding: const EdgeInsets.all(25.0),
-          decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor.withOpacity(0.8),
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          child: Center(
-            child: Text(
-              title,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16.0),
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor.withOpacity(0.8),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Center(
+          child: Text(
+            title,
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 16,
             ),
           ),
         ),

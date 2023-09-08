@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sitexpress/providers/splash_provider.dart';
+import 'package:sitexpress/providers/providers.dart';
 
 class SplashPage extends ConsumerWidget {
   const SplashPage({super.key});
